@@ -1,3 +1,6 @@
+#ifndef FB_H
+#define FB_H
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -16,8 +19,8 @@
 uint32_t *buffer;
 struct fb_var_screeninfo info;
 
-//typedef struct {double x, y, v;} Vector;
-
 void drawPoint(uint32_t x, uint32_t y, uint32_t color);
 void drawLine(int x1, int y1, int x2, int y2, uint32_t color);
 void fbInit();
+
+#endif
