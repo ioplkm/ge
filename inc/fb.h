@@ -19,8 +19,6 @@
 uint32_t *buffer;
 struct fb_var_screeninfo info;
 
-void drawPoint(uint32_t x, uint32_t y, uint32_t color);
-void drawLine(int x1, int y1, int x2, int y2, uint32_t color);
-void fbInit();
+uint32_t* fbInit();
 
 #endif
