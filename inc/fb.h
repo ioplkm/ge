@@ -16,7 +16,7 @@
 #define  white 0x00FFFFFF
 #define  black 0x00000000
 
-uint32_t *buffer;
+uint32_t *fbuffer;
 struct fb_var_screeninfo info;
 
 uint32_t* fbInit();
