@@ -1,6 +1,7 @@
 #include <string.h>
 
 #include <wayland-client.h>
+#include <xkbcommon/xkbcommon.h>
 
 #include "xdg-shell.h"
 #include "shm.h"
@@ -24,6 +25,10 @@ struct xdg_wm_base *xdg_wm_base;
 struct xdg_surface *xdg_surface;
 struct xdg_toplevel *xdg_toplevel;
 struct wl_callback *callback;
+
+extern struct wl_seat *seat;
+extern struct wl_seat_listener seatListener;
+extern struct xkb_context *xkb_context;
 
 void bufRelease(void *data, struct wl_buffer *wl_buffer);
 

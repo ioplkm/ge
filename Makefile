@@ -1,5 +1,6 @@
 CC = clang
-CFLAGS = -Wall -Wextra -Wpedantic -pipe -O3 -s -std=c11 -flto=thin -shared -fPIC -D_POSIX_C_SOURCE=200112L
+#CFLAGS = -Wall -Wextra -Wpedantic -pipe -O3 -s -std=c11 -flto=thin -shared -fPIC -D_POSIX_C_SOURCE=200112L
+CFLAGS = -Wall -pipe -O3 -s -std=c11 -flto=thin -shared -fPIC -D_POSIX_C_SOURCE=200112L
 all: src/* inc/*
 	wayland-scanner client-header < /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml > inc/xdg-shell.h
 	wayland-scanner private-code < /usr/share/wayland-protocols/stable/xdg-shell/xdg-shell.xml > src/xdg-shell.c

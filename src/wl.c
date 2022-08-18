@@ -17,14 +17,17 @@ void xdgPing(void *data, struct xdg_wm_base *xdg_wm_base, uint32_t serial) {
 }
 
 void regAdd(void *data, struct wl_registry *wl_registry, uint32_t name, const char *interface, uint32_t version) {
-    if (strcmp(interface, wl_shm_interface.name) == 0) {
-        wl_shm = wl_registry_bind(wl_registry, name, &wl_shm_interface, 1);
-    } else if (strcmp(interface, wl_compositor_interface.name) == 0) {
-        wl_compositor = wl_registry_bind(wl_registry, name, &wl_compositor_interface, 4);
-    } else if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
-        xdg_wm_base = wl_registry_bind(wl_registry, name, &xdg_wm_base_interface, 1);
-        xdg_wm_base_add_listener(xdg_wm_base, &xdgListener, NULL);
-    }
+  if (strcmp(interface, wl_shm_interface.name) == 0) {
+    wl_shm = wl_registry_bind(wl_registry, name, &wl_shm_interface, 1);
+  } else if (strcmp(interface, wl_compositor_interface.name) == 0) {
+    wl_compositor = wl_registry_bind(wl_registry, name, &wl_compositor_interface, 4);
+  } else if (strcmp(interface, xdg_wm_base_interface.name) == 0) {
+    xdg_wm_base = wl_registry_bind(wl_registry, name, &xdg_wm_base_interface, 1);
+    xdg_wm_base_add_listener(xdg_wm_base, &xdgListener, NULL);
+  } else if (strcmp(interface, wl_seat_interface.name) == 0) {
+    seat = wl_registry_bind(wl_registry, name, &wl_seat_interface, 7);
+    wl_seat_add_listener(seat, &seatListener, NULL);
+  }
 }
 
 void regDel(void *data, struct wl_registry *wl_registry, uint32_t name) {
@@ -44,6 +47,8 @@ void surfaceCallback(void *data, struct wl_callback *callback, uint32_t time) {
 }
 
 uint32_t *init() {
+  xkb_context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
+
   wl_display = wl_display_connect(NULL);
   wl_registry = wl_display_get_registry(wl_display);
   wl_registry_add_listener(wl_registry, &regListener, NULL);
@@ -70,16 +75,3 @@ void end() {
   wl_shm_pool_destroy(pool);
   close(fd);
 }
-
-/*int main() {
-  init();
-  uint32_t a = 0;
-  while (wl_display_dispatch(wl_display)) {
-    for (int i = 0; i < width * height; i++) {
-      data[i] = a;
-    }
-      a+=0x00010001;
-  }
-  end();
-  return 0;
-}*/
